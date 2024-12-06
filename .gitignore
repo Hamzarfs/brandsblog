@@ -28,3 +28,4 @@ product-image
 fabric-coords-fix.js
 public/orders/*
 .env.staging
+*.zip
