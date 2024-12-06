@@ -7,9 +7,6 @@
         <li class="nav-item">
             <a class="nav-link" href="{{ route('admin.dashboard') }}">Home</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('homepage') }}" target="_blank">RFS</a>
-        </li>
     </ul>
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">

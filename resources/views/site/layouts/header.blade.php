@@ -259,112 +259,11 @@
                     </form>
                 </div>
             </div>
-
-            <div class="row mt-3 justify-content-center">
-                @foreach ($categories as $index => $category)
-                    @if ($index % 10 == 0)
-                        @if ($index != 0)
-                            </ul>
-            </div>
-            @endif
-            {{-- <div class="col-md-2"> --}}
-            <div class="col-12 col-sm-12 col-lg-2 col-xl-2">
-                <ul class="list-unstyled">
-                    @endif
-                    <li>
-                        <a href="{{ url('/logos/' . $category->slug) }}" class="header-cat-links">
-                            {{ $category->name }}
-                        </a>
-                    </li>
-                    @endforeach
-                    @if (count($categories) % 10 != 0)
-                </ul>
-            </div>
-            @endif
         </div>
     </div>
-</div>
-</div>
-</div>
 </div>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-{{-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> --}}
-<script>
-    // $(document).ready(function() {
-    //     $('.search-icon').on('click', function() {
-    //         $('.mega-menu').slideToggle();
-    //     });
-
-    //     $(document).on('click', function(event) {
-    //         if (!$(event.target).closest('.mega-menu').length && !$(event.target).closest(
-    //                 '.search-icon').length) {
-    //             // $('.mega-menu').slideUp();
-    //         }
-    //     });
-    // });
-
-
-    $(document).ready(function() {
-        // Toggle the mega menu on search icon click
-        $('.search-icon').on('click', function(event) {
-            event.stopPropagation(); // Prevent click from bubbling up to document
-            $('.mega-menu').slideToggle();
-        });
-
-        // Hide the mega menu when clicking outside
-        $(document).on('click', function(event) {
-            if (!$(event.target).closest('.mega-menu').length && !$(event.target).closest(
-                    '.search-icon').length) {
-                // $('.mega-menu').slideUp();
-            }
-        });
-
-        // Prevent the mega menu from closing when clicking inside it
-        $('.mega-menu').on('click', function(event) {
-            event.stopPropagation(); // Prevent click from bubbling up to document
-        });
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        // Prepare an array of categories for the autocomplete widget
-        var categories = @json($categories);
-
-        // Extract the category names and ids for the autocomplete
-        var availableTags = categories.map(function(category) {
-            return {
-                label: category.name,
-                value: category.id
-            };
-        });
-
-        // Initialize the autocomplete widget
-        $('#industry').autocomplete({
-            source: availableTags,
-            select: function(event, ui) {
-                $('#industry').val(ui.item.label);
-                $('#industryId').val(ui.item.value); // Store the selected category ID
-                return false;
-            }
-        });
-
-        // Handle Next button click
-        $('#nextButton').on('click', function(event) {
-            event.preventDefault();
-            var selectedIndustryId = $('#industryId').val();
-
-            if (selectedIndustryId > 0) {
-                // Submit the form to the storeSessionData route
-                $('#categoryForm').submit();
-
-            } else {
-                alert("Please select an industry and fill out the business description.");
-            }
-        });
-    });
-</script>

@@ -21,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::controller(ApiController::class)->middleware('api')->group(function() {
     Route::get('blogs/{brand:name}', 'getAllBlogsForABrand');
-    Route::get('{brand}', 'show');
+    Route::get('blog/{blog}', 'show');
 });
 
