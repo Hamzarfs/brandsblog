@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
@@ -35,6 +36,8 @@ class BrandController extends Controller
             'name' => ['required', 'string', 'unique:brands'],
         ]);
 
+        $data['slug'] = Str::slug($data['name']);
+
         Brand::create($data);
 
         return redirect()->route('admin.brands.index')->with('success', 'Brand created successfully.');
@@ -58,6 +61,8 @@ class BrandController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', Rule::unique('brands')->ignore($brand->id)],
         ]);
+
+        $data['slug'] = Str::slug($data['name']);
 
         $brand->update($data);
 
