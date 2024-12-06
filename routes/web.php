@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArtisanController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BrandController;
@@ -39,4 +40,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('tags', TagController::class);
         Route::resource('blogs', BlogController::class);
     });
+});
+
+Route::prefix('artisan')->controller(ArtisanController::class)->group(function() {
+    Route::get('migrate', 'migrate');
+    Route::get('migrateSeed', 'migrateSeed');
+    Route::get('migrate/fresh', 'migrateFresh');
+    Route::get('migrate/fresh-seed', 'migrateFreshSeed');
+    Route::get('seed', 'seed');
 });
