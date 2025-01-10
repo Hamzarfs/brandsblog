@@ -53,7 +53,6 @@ class BlogController extends Controller
             'is_archived' => ['boolean']
         ]);
 
-
         $attributes = [
             'title' => $data['title'],
             'content' => $data['content'],
