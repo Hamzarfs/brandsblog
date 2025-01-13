@@ -13,6 +13,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Slug</th>
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th>Action</th>
@@ -23,6 +24,7 @@
                         <tr>
                             <td>{{ $tag->id }}</td>
                             <td>{{ $tag->name }}</td>
+                            <td>{{ $tag->slug }}</td>
                             <td>{{ $tag->created_at }}</td>
                             <td>{{ $tag->updated_at }}</td>
                             <td>
@@ -40,8 +42,10 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">
-                                No Tags created
+                            <td colspan="6" class="text-center">
+                                <b>
+                                    No Tags created
+                                </b>
                             </td>
                         </tr>
                     @endforelse

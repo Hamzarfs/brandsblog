@@ -12,6 +12,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Slug</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -20,6 +21,7 @@
                         <tr>
                             <td>{{ $cat->id }}</td>
                             <td>{{ $cat->name }}</td>
+                            <td>{{ $cat->slug }}</td>
                             <td>
                                 <div class="d-flex align-items-center">
                                     <a href="{{ route('admin.category.edit', $cat->id) }}"

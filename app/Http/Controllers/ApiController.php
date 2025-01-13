@@ -9,7 +9,7 @@ class ApiController extends Controller
     public function getAllBlogsForABrand(Brand $brand)
     {
         $brand->load([
-            'blogs' => fn($blogQuery) => $blogQuery->with(['tags', 'category'])
+            'blogs' => fn($blogQuery) => $blogQuery->where('is_archived', 0)->with(['tags', 'category'])
         ]);
 
         return response()->json([

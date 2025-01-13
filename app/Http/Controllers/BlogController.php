@@ -7,9 +7,9 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\{Arr, Str};
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Laravel\Facades\Image;
 
 class BlogController extends Controller
@@ -19,7 +19,6 @@ class BlogController extends Controller
      */
     public function index()
     {
-        // dd(array_column(Blog::with(['tags', 'brand', 'category'])->get()->last()->toArray()['tags'], 'id'));
         return view('admin.blogs.index', [
             'blogs' => Blog::with(['tags', 'brand', 'category'])->get(),
         ]);
@@ -44,6 +43,7 @@ class BlogController extends Controller
     {
         $data = $request->validate([
             'title' => ['required', 'string'],
+            'slug' => ['nullable', 'string', Rule::unique('blogs')],
             'content' => ['required', 'string'],
             'brand' => ['required', 'exists:brands,id'],
             'category' => ['required', 'exists:categories,id'],
@@ -53,20 +53,27 @@ class BlogController extends Controller
             'is_archived' => ['boolean']
         ]);
 
+        $imagePath = $data['image']->store('blogs/images');
+
         $attributes = [
             'title' => $data['title'],
+            'slug' => Str::slug($data['slug'] ? Str::lower($data['slug']) : $data['title']),
             'content' => $data['content'],
             'is_archived' => Arr::exists($data, 'is_archived') && $data['is_archived'] == 1,
-            'image' => $data['image']->store('blogs/images'),
+            'image' => $imagePath,
+            'image_url' => Storage::disk()->url($imagePath),
         ];
 
         $thumbnail = Image::read($data['image'])
-            ->resize(150, 150)
+            ->scale(150, 150)
             ->encode();
 
-        Storage::disk()->put(sprintf("blogs/thumbnails/%s", basename($attributes['image'])), $thumbnail);
+        $thumbnailPath = sprintf("blogs/thumbnails/%s", basename($attributes['image']));
 
-        $attributes['thumbnail'] = sprintf("blogs/thumbnails/%s", basename($attributes['image']));
+        if (Storage::disk()->put($thumbnailPath, $thumbnail)) {
+            $attributes['thumbnail'] = $thumbnailPath;
+            $attributes['thumbnail_url'] = Storage::disk()->url($thumbnailPath);
+        }
 
         $blog = new Blog($attributes);
 
@@ -78,14 +85,6 @@ class BlogController extends Controller
         $blog->tags()->sync($data['tags']);
 
         return redirect()->route('admin.blogs.index')->with('success', 'Blog created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Blog $blog)
-    {
-        //
     }
 
     /**
@@ -110,6 +109,7 @@ class BlogController extends Controller
     {
         $data = $request->validate([
             'title' => ['required', 'string'],
+            'slug' => ['nullable', 'string', Rule::unique('blogs')->ignoreModel($blog)],
             'content' => ['required', 'string'],
             'brand' => ['required', 'exists:brands,id'],
             'category' => ['required', 'exists:categories,id'],
@@ -122,6 +122,7 @@ class BlogController extends Controller
 
         $attributes = [
             'title' => $data['title'],
+            'slug' => Str::slug($data['slug'] ? Str::lower($data['slug']) : $data['title']),
             'content' => $data['content'],
             'is_archived' => Arr::exists($data, 'is_archived') && $data['is_archived'] == 1,
         ];
@@ -134,15 +135,21 @@ class BlogController extends Controller
             if (Storage::disk()->exists($blog->thumbnail))
                 Storage::disk()->delete($blog->thumbnail);
 
-            $attributes['image'] = $data['image']->store('blogs/images');
+            $imagePath = $data['image']->store('blogs/images');
+
+            $attributes['image'] = $imagePath;
+            $attributes['image_url'] = Storage::disk()->url($imagePath);
 
             $thumbnail = Image::read($data['image'])
-                ->resize(150, 150)
+                ->scale(150, 150)
                 ->encode();
 
-            Storage::disk()->put(sprintf("blogs/thumbnails/%s", basename($attributes['image'])), $thumbnail);
+            $thumbnailPath = sprintf("blogs/thumbnails/%s", basename($attributes['image']));
 
-            $attributes['thumbnail'] = sprintf("blogs/thumbnails/%s", basename($attributes['image']));
+            if (Storage::disk()->put($thumbnailPath, $thumbnail)) {
+                $attributes['thumbnail'] = $thumbnailPath;
+                $attributes['thumbnail_url'] = Storage::disk()->url($thumbnailPath);
+            }
         }
 
         $blog->brand()->associate($data['brand']);

@@ -16,6 +16,7 @@
             }
         </style>
     @endsection
+
     <section class="content">
         <!-- Default box -->
         <div class="row">
@@ -39,7 +40,7 @@
                                         <label for="title" class="form-label">Title <span
                                                 class="text-danger fw-bold">*</span></label>
                                         <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                            name="title" id="title" required
+                                            placeholder="Blog Title" name="title" id="title" required
                                             value="{{ old('title', $blog->title) }}">
                                         @error('title')
                                             <div class="invalid-feedback">
@@ -52,7 +53,7 @@
                                         <label for="content" class="form-label">Content <span
                                                 class="text-danger fw-bold">*</span></label>
                                         <textarea class="form-control @error('content') is-invalid @enderror" name="content" id="content" required
-                                            rows="5">{{ old('content', $blog->content) }}</textarea>
+                                            placeholder="Blog content" rows="5">{{ old('content', $blog->content) }}</textarea>
                                         @error('content')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -64,8 +65,9 @@
                                         <label for="image" class="form-label">Image</label>
                                         <input type="file" class="form-control @error('image') is-invalid @enderror"
                                             name="image" id="image" accept="image/*">
-                                        <small><a href="javascript:void(0)" class="view-image" data-toggle='modal' data-target='#view-image-modal'
-                                                data-image="{{ $blog->image }}">View image</a></small>
+                                        <small><a href="javascript:void(0)" class="view-image" data-toggle='modal'
+                                                data-target='#view-image-modal' data-image="{{ $blog->image_url }}">View
+                                                image</a></small>
                                         @error('image')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -88,6 +90,17 @@
                                 </div>
 
                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="slug" class="form-label">Slug</label>
+                                        <input type="text" class="form-control @error('slug') is-invalid @enderror"
+                                            placeholder="Blog slug" name="slug" id="slug"
+                                            value="{{ old('slug', $blog->slug) }}">
+                                        @error('slug')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
                                     <div class="form-group">
                                         <label for="brand" class="form-label">Brand <span
                                                 class="text-danger fw-bold">*</span></label>
@@ -127,8 +140,8 @@
                                     <div class="form-group">
                                         <label for="tags" class="form-label">Tags <span
                                                 class="text-danger fw-bold">*</span></label>
-                                        <select class="custom-select @error('tags') is-invalid @enderror" name="tags[]"
-                                            id="tags" required multiple>
+                                        <select class="custom-select @error('tags') is-invalid @enderror"
+                                            name="tags[]" id="tags" required multiple>
                                             <option value="">Select tags</option>
                                             @foreach ($tags as $tag)
                                                 <option value="{{ $tag->id }}" @selected(in_array($tag->id, old('tags', array_column($blog->tags->toArray(), 'id'))))>
@@ -198,9 +211,7 @@
             })
 
             $('#view-image-modal').on('show.bs.modal', function() {
-                console.log(123);
-
-                $(this).find('.modal-body img').attr('src', "{{ asset('storage/11111') }}".replace('11111', $('.view-image').data('image')))
+                $(this).find('.modal-body img').attr('src', $('.view-image').data('image'))
             })
         </script>
     @endsection

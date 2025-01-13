@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 class TagController extends Controller
 {
@@ -35,6 +36,8 @@ class TagController extends Controller
             'name' => ['required', 'string', 'unique:tags'],
         ]);
 
+        $data['slug'] = Str::slug($data['name']);
+
         Tag::create($data);
 
         return redirect()->route('admin.tags.index')->with('success', 'Tag created successfully.');
@@ -58,6 +61,8 @@ class TagController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', Rule::unique('tags')->ignore($tag->id)],
         ]);
+
+        $data['slug'] = Str::slug($data['name']);
 
         $tag->update($data);
 

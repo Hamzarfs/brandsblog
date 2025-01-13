@@ -1,5 +1,6 @@
 <x-admin>
     @section('title', 'Blogs')
+
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Blogs</h3>
@@ -12,7 +13,10 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
+                        <th>Brand</th>
+                        <th>Title</th>
+                        <th>Slug</th>
+                        <th>Is archived?</th>
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th>Action</th>
@@ -22,7 +26,14 @@
                     @forelse ($blogs as $blog)
                         <tr>
                             <td>{{ $blog->id }}</td>
+                            <td>{{ $blog->brand->name }}</td>
                             <td>{{ $blog->title }}</td>
+                            <td>{{ $blog->slug }}</td>
+                            <td>
+                                {!! $blog->is_archived
+                                    ? '<i class="fas fa-check-circle text-success"></i>'
+                                    : '<i class="fas fa-times-circle text-danger"></i>' !!}
+                            </td>
                             <td>{{ $blog->created_at }}</td>
                             <td>{{ $blog->updated_at }}</td>
                             <td>
@@ -40,8 +51,10 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">
-                                No Blogs created
+                            <td colspan="8" class="text-center">
+                                <b>
+                                    No Blogs created...
+                                </b>
                             </td>
                         </tr>
                     @endforelse

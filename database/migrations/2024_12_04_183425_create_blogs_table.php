@@ -18,9 +18,12 @@ return new class extends Migration
             $table->foreignIdFor(Brand::class)->constrained();
             $table->foreignIdFor(Category::class)->constrained();
             $table->string('title');
+            $table->string('slug')->unique();
             $table->text('content');
             $table->string('image');
+            $table->string('image_url');
             $table->string('thumbnail');
+            $table->string('thumbnail_url');
             $table->boolean('is_archived')->default(false);
             $table->timestamps();
         });

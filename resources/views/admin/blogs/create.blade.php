@@ -4,10 +4,10 @@
     @section('css')
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
-        {{-- <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css"
-            rel="stylesheet"> --}}
-        <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css"
+        <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css"
             rel="stylesheet">
+        {{-- <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css"
+            rel="stylesheet"> --}}
 
 
         <style>
@@ -18,6 +18,7 @@
             }
         </style>
     @endsection
+
     <section class="content">
         <!-- Default box -->
         <div class="row">
@@ -40,7 +41,8 @@
                                         <label for="title" class="form-label">Title <span
                                                 class="text-danger fw-bold">*</span></label>
                                         <input type="text" class="form-control @error('title') is-invalid @enderror"
-                                            name="title" id="title" required value="{{ old('title') }}">
+                                            placeholder="Blog Title" name="title" id="title" required
+                                            value="{{ old('title') }}">
                                         @error('title')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -52,7 +54,7 @@
                                         <label for="content" class="form-label">Content <span
                                                 class="text-danger fw-bold">*</span></label>
                                         <textarea class="form-control @error('content') is-invalid @enderror" name="content" id="content" required
-                                            rows="5">{{ old('content') }}</textarea>
+                                            placeholder="Blog content" rows="5">{{ old('content') }}</textarea>
                                         @error('content')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -88,13 +90,25 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="slug" class="form-label">Slug</label>
+                                        <input type="text" class="form-control @error('slug') is-invalid @enderror"
+                                            placeholder="Blog slug" name="slug" id="slug"
+                                            value="{{ old('slug') }}">
+                                        @error('slug')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
                                         <label for="brand" class="form-label">Brand <span
                                                 class="text-danger fw-bold">*</span></label>
                                         <select class="custom-select @error('brand') is-invalid @enderror"
                                             name="brand" id="brand" required>
                                             <option value="">Select a brand</option>
                                             @foreach ($brands as $brand)
-                                                <option value="{{ $brand->id }}" @selected(old('brand') == $brand->id)>{{ $brand->name }}</option>
+                                                <option value="{{ $brand->id }}" @selected(old('brand') == $brand->id)>
+                                                    {{ $brand->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('brand')
@@ -111,7 +125,8 @@
                                             name="category" id="category" required>
                                             <option value="">Select a category</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}" @selected(old('category') == $category->id)>{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" @selected(old('category') == $category->id)>
+                                                    {{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('category')
@@ -128,7 +143,8 @@
                                             id="tags" required multiple>
                                             <option value="">Select tags</option>
                                             @foreach ($tags as $tag)
-                                                <option value="{{ $tag->id }}" @selected(in_array($tag->id, old('tags', [])))>{{ $tag->name }}</option>
+                                                <option value="{{ $tag->id }}" @selected(in_array($tag->id, old('tags', [])))>
+                                                    {{ $tag->name }}</option>
                                             @endforeach
                                         </select>
                                         @error('tags.*')
@@ -153,6 +169,8 @@
         <!-- /.card -->
 
     </section>
+
+
     @section('js')
         <script>
             $(function() {
