@@ -16,7 +16,8 @@
                         <th>Brand</th>
                         <th>Title</th>
                         <th>Slug</th>
-                        <th>Is archived?</th>
+                        <th>Is Archived?</th>
+                        <th>Is Featured?</th>
                         <th>Created at</th>
                         <th>Updated at</th>
                         <th>Action</th>
@@ -31,6 +32,11 @@
                             <td>{{ $blog->slug }}</td>
                             <td>
                                 {!! $blog->is_archived
+                                    ? '<i class="fas fa-check-circle text-success"></i>'
+                                    : '<i class="fas fa-times-circle text-danger"></i>' !!}
+                            </td>
+                            <td>
+                                {!! $blog->is_featured
                                     ? '<i class="fas fa-check-circle text-success"></i>'
                                     : '<i class="fas fa-times-circle text-danger"></i>' !!}
                             </td>

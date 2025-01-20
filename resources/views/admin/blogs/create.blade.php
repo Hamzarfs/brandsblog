@@ -75,16 +75,27 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="custom-control custom-switch">
+                                        <div class="custom-control custom-switch custom-control-inline">
                                             <input type="checkbox" class="custom-control-input" id="is_archived"
                                                 name="is_archived" value="1">
                                             <label class="custom-control-label" for="is_archived">Archive ?</label>
+                                            @error('is_archived')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
                                         </div>
-                                        @error('is_archived')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
+
+                                        <div class="custom-control custom-switch custom-control-inline">
+                                            <input type="checkbox" class="custom-control-input" id="is_featured"
+                                                name="is_featured" value="1">
+                                            <label class="custom-control-label" for="is_featured">Featured ?</label>
+                                            @error('is_featured')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
 

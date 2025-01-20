@@ -50,7 +50,8 @@ class BlogController extends Controller
             'tags' => ['required', 'array'],
             'tags.*' => ['required', 'exists:tags,id'],
             'image' => ['required', 'file', 'image'],
-            'is_archived' => ['boolean']
+            'is_archived' => ['boolean'],
+            'is_featured' => ['boolean'],
         ]);
 
         $imagePath = $data['image']->store('blogs/images');
@@ -60,6 +61,7 @@ class BlogController extends Controller
             'slug' => Str::slug($data['slug'] ? Str::lower($data['slug']) : $data['title']),
             'content' => $data['content'],
             'is_archived' => Arr::exists($data, 'is_archived') && $data['is_archived'] == 1,
+            'is_featured' => Arr::exists($data, 'is_featured') && $data['is_featured'] == 1,
             'image' => $imagePath,
             'image_url' => Storage::disk()->url($imagePath),
         ];
@@ -116,7 +118,8 @@ class BlogController extends Controller
             'tags' => ['required', 'array'],
             'tags.*' => ['required', 'exists:tags,id'],
             'image' => ['file', 'image'],
-            'is_archived' => ['boolean']
+            'is_archived' => ['boolean'],
+            'is_featured' => ['boolean'],
         ]);
 
 
@@ -125,6 +128,7 @@ class BlogController extends Controller
             'slug' => Str::slug($data['slug'] ? Str::lower($data['slug']) : $data['title']),
             'content' => $data['content'],
             'is_archived' => Arr::exists($data, 'is_archived') && $data['is_archived'] == 1,
+            'is_featured' => Arr::exists($data, 'is_featured') && $data['is_featured'] == 1,
         ];
 
         if (isset($data['image'])) {

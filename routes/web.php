@@ -6,8 +6,11 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
+// use App\Models\Blog;
+// use App\Models\Brand;
 use Illuminate\Support\Facades\Route;
-
+// use Illuminate\Support\Str;
+// use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +52,17 @@ Route::prefix('artisan')->controller(ArtisanController::class)->group(function()
     Route::get('migrate/fresh-seed', 'migrateFreshSeed');
     Route::get('seed', 'seed');
 });
+
+// Route::get('test' , function() {
+//     // $title = fake()->words();
+//     $brand = Brand::find(1);
+
+
+//     dd($brand->blogs()->where('is_archived', 0)->get());
+//     // $blog = Blog::make([
+//     //     'title' => Str::title($title),
+//     //     'slug' => Str::slug($title),
+//     //     'content' => fake()->paragraphs(asText: true),
+
+//     // ]);
+// });

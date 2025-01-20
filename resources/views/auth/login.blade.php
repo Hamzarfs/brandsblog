@@ -1,13 +1,20 @@
 @extends('site.common')
 
 @section('title', 'Login to Your Portal - RFS Logo Design')
-@section('meta_desc', 'Access your RFS Logo Design account. Log in to manage your projects, view updates, and
+@section('meta_desc',
+    'Access your RFS Logo Design account. Log in to manage your projects, view updates, and
     communicate with our design team for a smooth experience.')
 
 
 @section('content')
 
     <style>
+        body {
+            display: grid;
+            place-items: center;
+            height: 100vh;
+        }
+
         .card {
             border-radius: 8px;
             border: none;
@@ -95,7 +102,7 @@
         }
     </style>
 
-    <div class="container my-5">
+    <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-md-5">
                 <div class="card shadow p-4">

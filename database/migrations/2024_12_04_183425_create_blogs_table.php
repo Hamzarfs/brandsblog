@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('thumbnail');
             $table->string('thumbnail_url');
             $table->boolean('is_archived')->default(false);
+            $table->boolean('is_featured')->default(false);
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,7 @@ class Blog extends Model
 
     protected $casts = [
         'is_archived' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     public function tags()
