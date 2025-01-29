@@ -247,7 +247,8 @@
                 height: 200,
                 toolbar: [
                     // [groupName, [list of button]]
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['view', ['codeview']], // Add the codeview button
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
                     ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['fontsize', ['fontsize']],
                     ['color', ['color']],
