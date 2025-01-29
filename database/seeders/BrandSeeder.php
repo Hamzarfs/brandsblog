@@ -17,7 +17,8 @@ class BrandSeeder extends Seeder
         $brands = [
             'Creative Logo Design',
             'RFS Logo Design',
-            'The App Design'
+            'The App Design',
+            'Content Writing Pulse',
         ];
 
         foreach ($brands as $brand) {

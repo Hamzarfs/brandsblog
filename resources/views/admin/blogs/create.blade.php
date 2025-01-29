@@ -2,6 +2,8 @@
     @section('title', 'Create Blog')
 
     @section('css')
+        <!-- include summernote css -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
         <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@1.5.2/dist/select2-bootstrap4.min.css"
@@ -54,7 +56,7 @@
                                         <label for="content" class="form-label">Content <span
                                                 class="text-danger fw-bold">*</span></label>
                                         <textarea class="form-control @error('content') is-invalid @enderror" name="content" id="content" required
-                                            placeholder="Blog content" rows="5">{{ old('content') }}</textarea>
+                                            placeholder="Blog content">{{ old('content') }}</textarea>
                                         @error('content')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -111,6 +113,7 @@
                                             </div>
                                         @enderror
                                     </div>
+
                                     <div class="form-group">
                                         <label for="brand" class="form-label">Brand <span
                                                 class="text-danger fw-bold">*</span></label>
@@ -150,8 +153,8 @@
                                     <div class="form-group">
                                         <label for="tags" class="form-label">Tags <span
                                                 class="text-danger fw-bold">*</span></label>
-                                        <select class="custom-select @error('tags') is-invalid @enderror" name="tags[]"
-                                            id="tags" required multiple>
+                                        <select class="custom-select @error('tags') is-invalid @enderror"
+                                            name="tags[]" id="tags" required multiple>
                                             <option value="">Select tags</option>
                                             @foreach ($tags as $tag)
                                                 <option value="{{ $tag->id }}" @selected(in_array($tag->id, old('tags', [])))>
@@ -159,6 +162,18 @@
                                             @endforeach
                                         </select>
                                         @error('tags.*')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="meta" class="form-label">SEO Tags <span
+                                                class="text-danger fw-bold">*</span></label>
+                                        <textarea name="meta_tags" id="meta" rows="5"
+                                            class="form-control @error('meta_tags') is-invalid @enderror" required>{{ old('meta_tags') }} </textarea>
+                                        @error('meta_tags')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -183,6 +198,8 @@
 
 
     @section('js')
+        <!-- include summernote js -->
+        <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
         <script>
             $(function() {
                 $('#brand').select2({
@@ -199,6 +216,19 @@
                     theme: 'bootstrap4',
                     placeholder: 'Select tags',
                     allowClear: true
+                })
+
+                $('#content').summernote({
+                    height: 200,
+                    toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']]
+                    ]
                 })
             });
         </script>

@@ -6,29 +6,40 @@ use Illuminate\Support\Facades\Artisan;
 
 class ArtisanController extends Controller
 {
-     public function migrate() {
+    public function migrate()
+    {
         Artisan::call('migrate');
 
-        return "<pre>". Artisan::output() ."</pre>";
-     }
-     public function migrateSeed() {
+        return "<pre>" . Artisan::output() . "</pre>";
+    }
+    public function migrateSeed()
+    {
         Artisan::call('migrate --seed');
 
-        return "<pre>". Artisan::output() ."</pre>";
-     }
-     public function migrateFresh() {
+        return "<pre>" . Artisan::output() . "</pre>";
+    }
+    public function migrateFresh()
+    {
         Artisan::call('migrate:fresh');
 
-        return "<pre>". Artisan::output() ."</pre>";
-     }
-     public function migrateFreshSeed() {
+        return "<pre>" . Artisan::output() . "</pre>";
+    }
+    public function migrateFreshSeed()
+    {
         Artisan::call('migrate:fresh --seed');
 
-        return "<pre>". Artisan::output() ."</pre>";
-     }
-     public function seed() {
+        return "<pre>" . Artisan::output() . "</pre>";
+    }
+    public function seed()
+    {
         Artisan::call('db:seed');
 
-        return "<pre>". Artisan::output() ."</pre>";
-     }
+        return "<pre>" . Artisan::output() . "</pre>";
+    }
+    public function symbolicLink()
+    {
+        Artisan::call('storage:link');
+
+        return "<pre>" . Artisan::output() . "</pre>";
+    }
 }
