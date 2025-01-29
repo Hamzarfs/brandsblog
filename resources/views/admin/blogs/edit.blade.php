@@ -2,8 +2,8 @@
     @section('title', 'Edit Blog')
 
     @section('css')
-        <!-- include summernote css -->
-        <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+        <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet'
+            type='text/css' />
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
         <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css"
@@ -218,8 +218,8 @@
     </section>
 
     @section('js')
-        <!-- include summernote js -->
-        <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
+        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'>
+        </script>
         <script>
             $(function() {
                 $('#brand').select2({
@@ -243,19 +243,58 @@
                 $(this).find('.modal-body img').attr('src', $('.view-image').data('image'))
             })
 
-            $('#content').summernote({
+            new FroalaEditor('#content', {
+                // Set custom buttons.
+                toolbarButtons: {
+                    // Key represents the more button from the toolbar.
+                    moreText: {
+                        // List of buttons used in the  group.
+                        buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript',
+                            'superscript', 'fontSize', 'textColor', 'backgroundColor', 'inlineStyle',
+                            'clearFormatting'
+                        ],
+
+                        // Alignment of the group in the toolbar.
+                        align: 'left',
+
+                        // By default, 3 buttons are shown in the main toolbar. The rest of them are available when using the more button.
+                        buttonsVisible: 3
+                    },
+
+
+                    moreParagraph: {
+                        buttons: ['alignLeft', 'alignCenter', 'formatOLSimple', 'alignRight',
+                            'alignJustify', 'formatOL', 'formatUL', 'paragraphFormat', 'paragraphStyle',
+                            'lineHeight', 'outdent', 'indent', 'quote'
+                        ],
+                        align: 'left',
+                        buttonsVisible: 3
+                    },
+
+                    moreRich: {
+                        buttons: ['insertLink', 'insertTable', 'emoticons',
+                            'fontAwesome', 'specialCharacters'
+                        ],
+                        align: 'left',
+                        buttonsVisible: 3
+                    },
+
+                    moreMisc: {
+                        buttons: ['undo', 'redo', 'fullscreen', 'print', 'spellChecker',
+                            'selectAll', 'html', 'help'
+                        ],
+                        align: 'right',
+                        buttonsVisible: 2
+                    }
+                },
+
+                // Change buttons for XS screen.
+                toolbarButtonsXS: [
+                    ['undo', 'redo'],
+                    ['bold', 'italic', 'underline']
+                ],
                 height: 200,
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['view', ['codeview']], // Add the codeview button
-                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']]
-                ]
-            })
+            });
         </script>
     @endsection
 </x-admin>
