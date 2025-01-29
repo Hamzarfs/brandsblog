@@ -45,12 +45,13 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::prefix('artisan')->controller(ArtisanController::class)->group(function() {
+Route::prefix('artisan')->controller(ArtisanController::class)->group(function () {
     Route::get('migrate', 'migrate');
     Route::get('migrateSeed', 'migrateSeed');
     Route::get('migrate/fresh', 'migrateFresh');
     Route::get('migrate/fresh-seed', 'migrateFreshSeed');
     Route::get('seed', 'seed');
+    Route::get('symbolicLink', 'symbolicLink');
 });
 
 // Route::get('test' , function() {
