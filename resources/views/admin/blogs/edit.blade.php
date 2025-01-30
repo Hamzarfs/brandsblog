@@ -2,13 +2,13 @@
     @section('title', 'Edit Blog')
 
     @section('css')
-        <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet'
-            type='text/css' />
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js" defer></script>
         <link href="https://cdn.jsdelivr.net/npm/@ttskch/select2-bootstrap4-theme@x.x.x/dist/select2-bootstrap4.min.css"
             rel="stylesheet">
 
+        {{-- Import Tinymce script --}}
+        <script src="{{ asset('admin/plugins/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
 
         <style>
             .select2-container--bootstrap4 .select2-selection__clear {
@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label for="content" class="form-label">Content <span
                                                 class="text-danger fw-bold">*</span></label>
-                                        <textarea class="form-control @error('content') is-invalid @enderror" name="content" id="content" required
+                                        <textarea class="form-control @error('content') is-invalid @enderror" name="content" id="content"
                                             placeholder="Blog content">{{ old('content', $blog->content) }}</textarea>
                                         @error('content')
                                             <div class="invalid-feedback">
@@ -218,8 +218,6 @@
     </section>
 
     @section('js')
-        <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'>
-        </script>
         <script>
             $(function() {
                 $('#brand').select2({
@@ -237,64 +235,32 @@
                     placeholder: 'Select tags',
                     allowClear: true
                 })
+
+                tinymce.init({
+                    selector: 'textarea#content',
+                    menubar: false,
+                    plugins: [
+                        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists',
+                        'searchreplace', 'visualblocks', 'wordcount', 'code'
+                    ],
+                    toolbar: 'code | undo redo | blocks fontsize | bold italic underline strikethrough | link | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                });
             })
 
             $('#view-image-modal').on('show.bs.modal', function() {
                 $(this).find('.modal-body img').attr('src', $('.view-image').data('image'))
             })
 
-            new FroalaEditor('#content', {
-                // Set custom buttons.
-                toolbarButtons: {
-                    // Key represents the more button from the toolbar.
-                    moreText: {
-                        // List of buttons used in the  group.
-                        buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript',
-                            'superscript', 'fontSize', 'textColor', 'backgroundColor', 'inlineStyle',
-                            'clearFormatting'
-                        ],
-
-                        // Alignment of the group in the toolbar.
-                        align: 'left',
-
-                        // By default, 3 buttons are shown in the main toolbar. The rest of them are available when using the more button.
-                        buttonsVisible: 3
-                    },
-
-
-                    moreParagraph: {
-                        buttons: ['alignLeft', 'alignCenter', 'formatOLSimple', 'alignRight',
-                            'alignJustify', 'formatOL', 'formatUL', 'paragraphFormat', 'paragraphStyle',
-                            'lineHeight', 'outdent', 'indent', 'quote'
-                        ],
-                        align: 'left',
-                        buttonsVisible: 3
-                    },
-
-                    moreRich: {
-                        buttons: ['insertLink', 'insertTable', 'emoticons',
-                            'fontAwesome', 'specialCharacters'
-                        ],
-                        align: 'left',
-                        buttonsVisible: 3
-                    },
-
-                    moreMisc: {
-                        buttons: ['undo', 'redo', 'fullscreen', 'print', 'spellChecker',
-                            'selectAll', 'html', 'help'
-                        ],
-                        align: 'right',
-                        buttonsVisible: 2
-                    }
-                },
-
-                // Change buttons for XS screen.
-                toolbarButtonsXS: [
-                    ['undo', 'redo'],
-                    ['bold', 'italic', 'underline']
-                ],
-                height: 200,
-            });
+            $('form').submit(function(event) {
+                const content = tinymce.get('content').getContent({
+                    format: 'text'
+                }).trim();
+                if (content === '') {
+                    event.preventDefault();
+                    alert('The content field is required.');
+                    tinymce.get('content').focus();
+                }
+            })
         </script>
     @endsection
 </x-admin>
