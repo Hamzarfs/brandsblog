@@ -187,4 +187,17 @@ class BlogController extends Controller
 
         return redirect()->route('admin.blogs.index')->with('success', 'Blog deleted successfully!');
     }
+
+    /**
+     * Image uploader for blog content images uploaded by TinyMCE editor
+     */
+    public function uploadBlogContentImage(Request $request)
+    {
+        $data = $request->validate([
+            'file' => "required|image|max:2048"
+        ]);
+
+        $path = $data['file']->store('blogs/tinymceUploads');
+        return response()->json(['location' => $path]);
+    }
 }

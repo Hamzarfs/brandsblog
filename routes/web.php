@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('category', CategoryController::class);
         Route::resource('brands', BrandController::class);
         Route::resource('tags', TagController::class);
+        Route::post('blogs/upload-img', [BlogController::class, 'uploadBlogContentImage'])->name('uploadBlogContentImage');
         Route::resource('blogs', BlogController::class);
     });
 });

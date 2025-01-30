@@ -218,11 +218,18 @@
                     selector: 'textarea#content',
                     menubar: false,
                     plugins: [
-                        // Core editing features
                         'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists',
-                        'searchreplace', 'visualblocks', 'wordcount', 'code'
+                        'searchreplace', 'visualblocks', 'wordcount', 'code', 'image'
                     ],
-                    toolbar: 'code | undo redo | blocks fontsize | bold italic underline strikethrough | link | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                    toolbar: 'code | undo redo | blocks fontsize | bold italic underline strikethrough | image link | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+                    image_title: true,
+                    automatic_uploads: true,
+                    file_picker_types: 'image',
+                    images_upload_url: "{{ route('admin.uploadBlogContentImage') }}",
+                    image_prepend_url: "{{ url('storage') }}/",
+                    relative_urls: false,
+                    remove_script_host: false,
+                    document_base_url: "{{ url('/') }}/",
                 });
             });
 
