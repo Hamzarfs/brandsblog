@@ -252,6 +252,16 @@
                     relative_urls: false,
                     remove_script_host: false,
                     document_base_url: "{{ url('/') }}/",
+                    setup: function(editor) {
+                        editor.on('NodeChange', function(e) {
+                            if (e && e.element.nodeName.toLowerCase() === 'img') {
+                                var cls = e.element.getAttribute('class') || '';
+                                if (cls.indexOf('img-fluid') === -1) {
+                                    editor.dom.setAttrib(e.element, 'class', cls + 'img-fluid');
+                                }
+                            }
+                        });
+                    },
                 });
             })
 
